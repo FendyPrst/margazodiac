@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Zodiac Family – Open Member</title>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Link preview (Open Graph) — TUKAR margazodiac.vercel.app kepada domain Vercel kau -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Zodiac Family">
+  <meta property="og:url" content="https://margazodiac.vercel.app/">
+  <meta property="og:title" content="Zodiac Family — Share • Edit • Learn • Improve">
+  <meta property="og:description" content="Tempat untuk mencari teman dan ngedit bareng.">
+  <meta property="og:image" content="https://margazodiac.vercel.app/preview.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Logo Zodiac Family — mahkota krom dengan api biru">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zodiac Family — Share • Edit • Learn • Improve">
+  <meta name="twitter:description" content="Tempat untuk mencari teman dan ngedit bareng.">
+  <meta name="twitter:image" content="https://margazodiac.vercel.app/preview.jpg">
+
+  <link rel="icon" type="image/jpeg" href="./Profile_Picture.jpg">
+  
+</head>
+
+<body>
+  <!-- ==================== LATAR BELAKANG ==================== -->
+  <div class="bg" aria-hidden="true">
+    <i class="pg pg-1 on"></i>
+    <i class="pg pg-2"></i>
+    <i class="pg pg-3"></i>
+    <i class="ov"></i>
+  </div>
+
+  <main class="wrap">
+
+    <!-- ==================== HALAMAN 1: BERANDA ==================== -->
+    <section class="page on">
+
+      <!-- Logo & judul -->
+      <div class="hero">
+        <div class="ring">
+          <img src="assets/logo.jpg" alt="Logo ZF">
+        </div>
+        <h1>Zodiac Family</h1>
+        <p>OPEN MEMBER</p>
+      </div>
+
+      <!-- Statistik singkat -->
+      <div class="tiles">
+        <div><b id="cnt">0</b>Member</div>
+        <div><b id="adm">2</b>Admin</div>
+        <div><b>17-09-26</b>Berdiri</div>
+      </div>
+
+      <!-- Peraturan -->
+      <div class="card">
+        <h2>🔥 Rules</h2>
+        <table class="tb n">
+          <tr>
+            <td>1</td>
+            <td style="color:var(--tx);font-weight:400">Wajib CN (Change Name) sesuai format ZF.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td style="color:var(--tx);font-weight:400">Wajib mengganti bio sesuai ketentuan ZF.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td style="color:var(--tx);font-weight:400">Wajib memakai hashtag #margazf atau #margazodiac di postingan.</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Keuntungan -->
+      <div class="card">
+        <h2>✨ Keuntungan</h2>
+        <div class="perk">
+          <div><i>🤝</i>Banyak teman baru</div>
+          <div><i>📈</i>Relasi &amp; pengalaman</div>
+          <div><i>🏠</i>Keluarga ZF</div>
+        </div>
+      </div>
+
+      <button class="btn" onclick="go(2)">🔥 MULAI SELEKSI</button>
+    </section>
+
+    <!-- ==================== HALAMAN 2: STAFF ==================== -->
+    <section class="page">
+
+      <!-- Profil marga -->
+      <div class="card">
+        <h2>📋 Profil Marga</h2>
+        <table class="tb">
+          <tr>
+            <td>Nama</td>
+            <td>Zodiac Family (ZF)</td>
+          </tr>
+          <tr>
+            <td>Berdiri</td>
+            <td>17 September 2026</td>
+          </tr>
+          <tr>
+            <td>Owner</td>
+            <td>Kevin</td>
+          </tr>
+          <tr>
+            <td>Member</td>
+            <td id="pm">45</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Struktur staff -->
+      <div class="card">
+        <h2>👑 Struktur Staff</h2>
+        <table class="tb" id="stf">
+          <tr>
+            <th>Jabatan</th>
+            <th>Nama</th>
+          </tr>
+          <tr>
+            <td>👑 Owner</td>
+            <td>KEVIN</td>
+          </tr>
+          <tr class="adm">
+            <td>🛡️ Admin</td>
+            <td>AYAP</td>
+          </tr>
+          <tr class="adm">
+            <td>🛡️ Admin</td>
+            <td>WILZZ</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Visi & misi -->
+      <details class="acc" open>
+        <summary>🎯 Visi Misi ZF</summary>
+        <p>Membangun pengalaman dan tempat perkumpulan, serta ingin menjadi marga yang dikenal.</p>
+      </details>
+
+      <!-- Sejarah -->
+      <details class="acc">
+        <summary>📖 Sejarah ZF</summary>
+        <p>Zodiac Family dibuat pada 17 September 2026 oleh Kevin, karena ingin punya banyak teman. Dari situ ZF terus bertumbuh dan anggotanya terus bertambah.</p>
+      </details>
+    </section>
+
+    <!-- ==================== HALAMAN 3: SELEKSI ==================== -->
+    <section class="page">
+
+      <!-- Progress seleksi -->
+      <div class="card">
+        <div class="pc">
+          <span>Progress Seleksi</span>
+          <b id="pct">0%</b>
+        </div>
+        <div class="track"><i id="fill"></i></div>
+        <div class="steps" id="steps"></div>
+      </div>
+
+      <!-- Langkah 1: pilih CN -->
+      <div class="card">
+        <h2>1. Pilih CN</h2>
+        <table class="tb">
+          <tr>
+            <th>Format yang diterima</th>
+          </tr>
+          <tr>
+            <td style="width:auto;color:var(--tx);font-weight:400">Nama `Zodiac &nbsp;•&nbsp; Nama 𝖋𝖙 𝙕𝙁 &nbsp;•&nbsp; 众 - Nama</td>
+          </tr>
+        </table>
+        <input type="text" id="un" placeholder="Nama di TikTok (tanpa ZF), contoh: Agus" autocomplete="off">
+        <button class="btn" onclick="mk()">BUAT PILIHAN CN</button>
+        <div class="err" id="e1"></div>
+        <div id="cns"></div>
+      </div>
+
+      <!-- Langkah 2: bio & hashtag -->
+      <div class="card">
+        <h2>2. Bio &amp; Hashtag</h2>
+        <table class="tb">
+          <tr>
+            <th>Item</th>
+            <th>Isi</th>
+            <th></th>
+          </tr>
+          <tr>
+            <td>Bio</td>
+            <td id="bio">☘️𝙋𝙖𝙧𝙩 𝙊𝙁 𝙕𝙁☘️</td>
+            <td><button class="btn sm" onclick="cp(this,'☘️𝙋𝙖𝙧𝙩 𝙊𝙁 𝙕𝙁☘️')">Copy</button></td>
+          </tr>
+          <tr>
+            <td>Hashtag</td>
+            <td>#margazf</td>
+            <td><button class="btn sm" onclick="cp(this,'#margazf')">Copy</button></td>
+          </tr>
+          <tr>
+            <td>Hashtag</td>
+            <td>#margazodiac</td>
+            <td><button class="btn sm" onclick="cp(this,'#margazodiac')">Copy</button></td>
+          </tr>
+        </table>
+        <label class="ck"><input type="checkbox" id="ck1"> Sudah ganti CN</label>
+        <label class="ck"><input type="checkbox" id="ck2"> Sudah ganti bio</label>
+      </div>
+
+      <!-- Panduan seleksi -->
+      <div class="card">
+        <h2>Cara Seleksi</h2>
+        <table class="tb n">
+          <tr>
+            <td>1</td>
+            <td style="color:var(--tx);font-weight:400">Buka TikTok kamu.</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td style="color:var(--tx);font-weight:400">Klik tanda + di bawah tengah layar, pilih video.</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td style="color:var(--tx);font-weight:400">Tulis caption + hashtag, lalu posting.</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="color:var(--tx);font-weight:400">Salin link video, tempel di kolom Cek Seleksi di bawah, lalu klik Cek Sekarang.</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Langkah 3: cek seleksi -->
+      <div class="card">
+        <h2>3. Cek Seleksi</h2>
+        <p class="cap">Upload 1 video TikTok pakai #margazf atau #margazodiac, salin tautannya lalu tempel di sini.</p>
+        <input type="text" id="lk" placeholder="https://vt.tiktok.com/xxxx/">
+        <button class="btn" id="chk" onclick="check()">CEK SEKARANG</button>
+        <div class="err" id="e3"></div>
+        <div id="res"></div>
+      </div>
+
+      <!-- Tombol masuk chat (aktif setelah 100%) -->
+      <button class="btn" id="join" disabled onclick="joinChat()">🔒 MASUK CHAT</button>
+    </section>
+  </main>
+
+  <!-- ==================== NAVIGASI BAWAH ==================== -->
+  <nav class="tabs">
+    <button class="tab on" onclick="go(0)"><i>🏠</i>Beranda</button>
+    <button class="tab" onclick="go(1)"><i>👥</i>Staff</button>
+    <button class="tab" onclick="go(2)"><i>⚡</i>Seleksi</button>
+  </nav>
+
+  <!-- ==================== MODAL PENDAFTARAN ==================== -->
+  <div class="modal" id="mOk" onclick="if(event.target==this)closeM()">
+    <div class="card" style="text-align:center">
+      <div style="font-size:54px">🏆</div>
+      <div class="mid">PENDAFTARAN BERHASIL!</div>
+      <p id="okt"></p>
+      <div class="mid" id="mid" style="color:var(--pri);text-shadow:0 0 14px var(--pri)"></div>
+      <a class="btn" id="jl" href="index.html#">💬 GABUNG GRUP ZF</a>
+      <button class="btn" id="jc" onclick="cp(this,CHAT_URL)">📋 SALIN LINK GRUP</button>
+      <button class="btn" onclick="closeM()">TUTUP</button>
+    </div>
+  </div>
+
+  <!-- ==================== NOTIFIKASI ==================== -->
+  <div class="toast" id="ts"></div>
+
+  <!-- ==================== SCRIPT ==================== -->
+  <script src="js/app.js"></script>
+</body>
+</html>

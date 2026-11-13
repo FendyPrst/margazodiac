@@ -1,0 +1,1286 @@
+/* ============================================================
+   ZODIAC FAMILY – STYLE SHEET
+   ------------------------------------------------------------
+   Daftar isi:
+   01. Variabel warna & dasar halaman
+   02. Latar belakang & animasi
+   03. Tipografi
+   04. Layout utama & halaman
+   05. Hero / logo
+   06. Statistik
+   07. Kartu & tabel
+   08. Keuntungan
+   09. Tombol
+   10. Accordion
+   11. Progress seleksi
+   12. Form & baris pilihan CN
+   13. Hasil pengecekan
+   14. Navigasi bawah
+   15. Modal & toast
+   16. Efek glass
+   17. Penyesuaian font
+   18. Responsive
+   19. Perbaikan layar melebar saat pindah tab
+   20. Dock: tahan & geser (drag)
+   21. Animasi halus
+   ============================================================ */
+
+
+/* ============================================================
+   01. VARIABEL WARNA & DASAR HALAMAN
+   ============================================================ */
+:root {
+  /* Warna utama */
+  --bg: #16070b;
+  --pri: #ff4757;
+  --sec: #ffe3e6;
+  --glass: rgba(255, 227, 230, .10);
+  --blur: 10px;
+  --pane: rgba(255, 227, 230, .14);
+  --bg-blur: 3px;
+  --shadow: 0 10px 24px rgba(0, 0, 0, .45);
+  --face: linear-gradient(160deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, .02) 42%, rgba(255, 71, 87, .06));
+  --hi: rgba(255, 255, 255, .18);
+  --line: rgba(255, 160, 170, .32);
+  --tx: #fff5f6;
+  --mut: #f0c9ce;
+  --bad: #ff7b7b;
+  --ok: #7ef0c4;
+
+  /* Pengaturan dasar */
+  color-scheme: dark;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font: 15px/1.5 Poppins, system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Area aman (notch) di bagian atas layar */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  z-index: 12;
+}
+
+
+/* ============================================================
+   02. LATAR BELAKANG & ANIMASI
+   ============================================================ */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 40% at 50% 55%, rgba(255, 71, 87, .25), transparent 70%),
+    #16070b;
+}
+
+/* Gambar latar yang berganti antar halaman */
+.pg {
+  position: absolute;
+  inset: 0;
+  background: center / cover;
+  opacity: 0;
+  transition: opacity .6s;
+  z-index: 0;
+  /* Semua gambar latar diblur; diperbesar sedikit agar tepi tidak gosong */
+  filter: blur(var(--bg-blur));
+  scale: 1.06;
+}
+
+.pg.on {
+  opacity: 1;
+}
+
+/* Gambar latar untuk tiap halaman */
+.pg-1 {
+  background-image: url("../assets/bg-1.jpg");
+}
+
+.pg-2 {
+  background-image: url("../assets/bg-2.jpg");
+}
+
+.pg-3 {
+  background-image: url("../assets/bg-3.jpg");
+}
+
+/* Lapisan gelap di atas gambar latar */
+.ov {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(16, 5, 8, .25), rgba(16, 5, 8, .75));
+}
+
+/* Cahaya lingkaran di sudut latar */
+.bg::before,
+.bg::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  border-radius: 50%;
+  opacity: .25;
+}
+
+.bg::before {
+  width: 75vmax;
+  height: 75vmax;
+  left: -30vmax;
+  top: -25vmax;
+  background: radial-gradient(circle, #ff3b4e, transparent 65%);
+}
+
+.bg::after {
+  width: 70vmax;
+  height: 70vmax;
+  right: -30vmax;
+  bottom: -25vmax;
+  background: radial-gradient(circle, #ffc2c8, transparent 65%);
+  animation-duration: 24s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes drift {
+  to {
+    transform: translate(8vmax, 6vmax) scale(1.15);
+  }
+}
+
+
+/* ============================================================
+   03. TIPOGRAFI
+   ============================================================ */
+h1,
+h2,
+h3,
+.tab,
+th {
+  font-family: Rajdhani, Poppins, sans-serif;
+  letter-spacing: .05em;
+}
+
+
+/* ============================================================
+   04. LAYOUT UTAMA & HALAMAN
+   ============================================================ */
+.wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 16px 16px 118px;
+}
+
+/* Halaman disembunyikan, kecuali yang aktif */
+.page {
+  display: none;
+}
+
+/* Halaman masuk dengan slide halus sesuai arah tab */
+.page.on {
+  display: block;
+  animation: slideIn .42s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.page.on.from-right {
+  --slide-x: 36px;
+}
+
+.page.on.from-left {
+  --slide-x: -36px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(var(--slide-x, 36px));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* ============================================================
+   05. HERO / LOGO
+   ============================================================ */
+.ring {
+  width: 136px;
+  height: 136px;
+  border-radius: 50%;
+  padding: 4px;
+  margin: 6px auto 10px;
+  background: conic-gradient(var(--pri), var(--sec), var(--pri));
+  animation: spin 6s linear infinite;
+  box-shadow: 0 0 30px rgba(255, 71, 87, .55);
+}
+
+.ring img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: spin 6s linear infinite reverse;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: 34px;
+  text-shadow: 0 0 18px var(--pri);
+}
+
+.hero p {
+  margin: 0;
+  color: var(--sec);
+  letter-spacing: .3em;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+
+/* ============================================================
+   06. STATISTIK
+   ============================================================ */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tiles div {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--pri);
+  border-radius: 12px;
+  padding: 10px 4px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--mut);
+}
+
+.tiles b {
+  display: block;
+  font: 700 22px/1.2 Rajdhani, sans-serif;
+  color: var(--tx);
+}
+
+
+/* ============================================================
+   07. KARTU & TABEL
+   ============================================================ */
+.card {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.card h2 {
+  font-size: 19px;
+  margin: 0 0 8px;
+  color: var(--sec);
+}
+
+.tb {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 6px;
+}
+
+.tb th,
+.tb td {
+  padding: 9px 10px;
+  background: rgba(255, 255, 255, .06);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tb th {
+  background: rgba(255, 71, 87, .3);
+  font-size: 13px;
+}
+
+.tb th:first-child,
+.tb td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.tb th:last-child,
+.tb td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+/* Tabel satu kolom: keempat sudut tetap membulat */
+.tb th:only-child,
+.tb td:only-child {
+  border-radius: 10px;
+}
+
+.tb td:first-child {
+  width: 38%;
+  color: var(--sec);
+  font-weight: 600;
+}
+
+/* Tabel bernomor (tanpa judul kolom) */
+.tb.n td:first-child {
+  width: 40px;
+  text-align: center;
+  color: var(--pri);
+  font: 700 18px Rajdhani, sans-serif;
+}
+
+
+/* ============================================================
+   08. KEUNTUNGAN
+   ============================================================ */
+.perk {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.perk div {
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 6px;
+  text-align: center;
+  font-size: 12.5px;
+}
+
+.perk i {
+  display: block;
+  font-style: normal;
+  font-size: 24px;
+}
+
+
+/* ============================================================
+   09. TOMBOL
+   ============================================================ */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  background: linear-gradient(135deg, #ff3b4e, #ffe3e6);
+  color: #3a0a12;
+  padding: 13px 14px;
+  border-radius: 12px;
+  font: 700 15px Rajdhani, Poppins, sans-serif;
+  letter-spacing: .06em;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(255, 71, 87, .4);
+  margin-top: 8px;
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: scale(.97);
+}
+
+/* Tombol kecil */
+.btn.sm {
+  width: auto;
+  margin: 0;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 9px;
+  box-shadow: none;
+}
+
+/* Tombol yang belum bisa dipakai */
+.btn[disabled] {
+  opacity: .4;
+  filter: grayscale(.6);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   10. ACCORDION
+   ============================================================ */
+.acc {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  margin: 10px 0;
+  background: var(--glass);
+  overflow: hidden;
+}
+
+.acc summary {
+  padding: 13px 14px;
+  font: 700 17px Rajdhani, sans-serif;
+  letter-spacing: .06em;
+  cursor: pointer;
+  list-style: none;
+}
+
+.acc summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Ikon + / – pada accordion */
+.acc summary::after {
+  content: "+";
+  float: right;
+  color: var(--sec);
+}
+
+.acc[open] summary::after {
+  content: "–";
+}
+
+.acc[open] summary {
+  background: rgba(255, 71, 87, .22);
+}
+
+.acc p {
+  margin: 0;
+  padding: 12px 14px 14px;
+}
+
+
+/* ============================================================
+   11. PROGRESS SELEKSI
+   ============================================================ */
+.cap {
+  color: var(--mut);
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+
+/* Bar progress */
+.track {
+  height: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .12);
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.track i {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--pri), var(--sec));
+  transition: width .6s;
+  box-shadow: 0 0 14px var(--pri);
+}
+
+/* Label persentase */
+.pc {
+  display: flex;
+  justify-content: space-between;
+  font: 700 16px Rajdhani, sans-serif;
+}
+
+/* Daftar langkah seleksi */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 10px;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+.steps div {
+  color: var(--mut);
+}
+
+.steps .d {
+  color: var(--ok);
+}
+
+
+/* ============================================================
+   12. FORM & BARIS PILIHAN CN
+   ============================================================ */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin: 6px 0;
+}
+
+.row span {
+  flex: 1;
+  word-break: break-word;
+}
+
+/* Baris pilihan yang sedang dipilih */
+.row.sel {
+  border-color: var(--ok);
+  box-shadow: 0 0 12px rgba(93, 255, 176, .35);
+}
+
+input[type="text"] {
+  width: 100%;
+  background: rgba(0, 0, 0, .35);
+  border: 1px solid var(--line);
+  color: var(--tx);
+  border-radius: 10px;
+  padding: 11px 12px;
+  font: inherit;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  border-color: var(--pri);
+}
+
+/* Pesan error / berhasil */
+.err {
+  color: var(--bad);
+  font-size: 13px;
+  margin-top: 6px;
+  min-height: 18px;
+}
+
+.okk {
+  color: var(--ok);
+}
+
+/* Checkbox dengan label */
+label.ck {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+
+/* ============================================================
+   13. HASIL PENGECEKAN
+   ============================================================ */
+.rc {
+  border: 1px solid;
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+
+/* Hasil lolos */
+.rc.ok {
+  border-color: var(--ok);
+  background: rgba(93, 255, 176, .1);
+}
+
+/* Hasil tidak lolos */
+.rc.no {
+  border-color: var(--bad);
+  background: rgba(255, 93, 122, .16);
+}
+
+.rc b {
+  display: block;
+}
+
+.rc small {
+  color: var(--mut);
+  word-break: break-word;
+}
+
+
+/* ============================================================
+   14. NAVIGASI BAWAH (FLOATING DOCK)
+   ============================================================ */
+.tabs {
+  position: fixed;
+  left: 50%;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 11;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  width: min(420px, calc(100% - 24px));
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid rgba(255, 190, 198, .18);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, .45),
+    0 2px 12px rgba(255, 71, 87, .14),
+    inset 0 1px 0 rgba(255, 255, 255, .1);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(60%);
+  backdrop-filter: blur(var(--blur)) saturate(60%);
+}
+
+/* Pil aktif yang bergeser halus mengikuti tab yang ditekan */
+.tabs::before {
+  content: "";
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  width: var(--w, calc((100% - 20px) / 3));
+  border-radius: 999px;
+  background: rgba(255, 71, 87, .22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .16),
+    0 4px 16px rgba(255, 71, 87, .25);
+  translate: var(--x, 6px) 0;
+  scale: 1;
+  transition:
+    translate .38s cubic-bezier(.22, 1, .36, 1),
+    width .38s cubic-bezier(.22, 1, .36, 1),
+    scale .22s cubic-bezier(.22, 1, .36, 1),
+    background .22s, box-shadow .22s;
+  pointer-events: none;
+}
+
+/* Matikan transisi sementara bila pil dikira semula (resize/load) */
+.tabs.nt::before {
+  transition: none;
+}
+
+.tab {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  padding: 8px 6px 7px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mut);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: color .25s, transform .2s;
+}
+
+.tab i {
+  display: block;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform .25s;
+}
+
+.tab.on {
+  color: var(--tx);
+}
+
+.tab.on i {
+  transform: translateY(-1px) scale(1.08);
+}
+
+.tab:active i {
+  transform: scale(.9);
+}
+
+/* Hormati pengaturan kurangi gerak */
+@media (prefers-reduced-motion: reduce) {
+  .page.on {
+    animation: none;
+  }
+
+  .tabs::before,
+  .tab,
+  .tab i {
+    transition: none;
+  }
+}
+
+
+/* ============================================================
+   15. MODAL & TOAST
+   ============================================================ */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 2, 4, .82);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 20;
+}
+
+.modal.on {
+  display: flex;
+}
+
+.modal .card {
+  max-width: 520px;
+  max-height: 82vh;
+  overflow: auto;
+  margin: 0;
+  background: rgba(40, 10, 16, .97);
+}
+
+/* Judul di tengah (misal: pendaftaran berhasil) */
+.mid {
+  text-align: center;
+  font: 700 26px Rajdhani, sans-serif;
+  color: var(--ok);
+  text-shadow: 0 0 14px var(--ok);
+  margin: 6px 0;
+}
+
+/* Notifikasi singkat di atas layar */
+.toast {
+  position: fixed;
+  left: 50%;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  transform: translate(-50%, -90px);
+  background: #2b0d14;
+  border: 1px solid var(--ok);
+  padding: 10px 16px;
+  border-radius: 14px;
+  z-index: 30;
+  transition: .4s;
+  max-width: 90%;
+  text-align: center;
+}
+
+.toast.on {
+  transform: translate(-50%, 0);
+}
+
+
+/* ============================================================
+   16. EFEK GLASS
+   ------------------------------------------------------------
+   Semua permukaan UI transparan 90% (alpha 0.10) dengan
+   blur 10px + saturasi 60%. Blur hanya dipasang pada
+   permukaan yang langsung di atas latar halaman; kepingan
+   di dalam kartu memakai kaca kartunya, sehingga efeknya
+   terlihat sama jelas seperti header & floating dock.
+   ============================================================ */
+
+/* Lapisan kaca utama – langsung di atas latar halaman */
+.tiles div,
+.card,
+.acc,
+.btn,
+.toast,
+.modal .card {
+  background: var(--face), var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(60%);
+  backdrop-filter: blur(var(--blur)) saturate(60%);
+  box-shadow:
+    inset 0 1px 0 var(--hi),
+    var(--shadow);
+}
+
+/* Kepingan di dalam kartu – memakai kaca kartu, tanpa blur ganda */
+.tb th,
+.tb td,
+.perk div,
+.acc summary,
+.acc[open] summary,
+.track,
+.row,
+input[type="text"],
+.rc,
+.rc.ok,
+.rc.no {
+  background: var(--face), var(--pane);
+  box-shadow:
+    inset 0 1px 0 var(--hi),
+    var(--shadow);
+}
+
+/* Tombol di dalam kartu memakai kepingan kartu */
+.card .btn,
+.modal .card .btn {
+  background: var(--face), var(--pane);
+}
+
+/* Tombol tetap terbaca di atas latar transparan */
+.btn {
+  color: var(--tx);
+  border: 1px solid var(--line);
+}
+
+
+/* ============================================================
+   17. PENYESUAIAN FONT
+   ------------------------------------------------------------
+   Override terakhir agar elemen utama memakai Quicksand.
+   Sengaja diletakkan paling bawah supaya mudah ditemukan.
+   ============================================================ */
+h1,
+h2,
+h3,
+.tab,
+th,
+.tiles b,
+.btn,
+.acc summary,
+.pc,
+.mid,
+.tb.n td:first-child {
+  font-family: Quicksand, Poppins, sans-serif !important;
+}
+
+
+/* ============================================================
+   18. RESPONSIVE (semua perangkat)
+   ------------------------------------------------------------
+   Pendekatan mobile-first: aturan dasar di atas sudah untuk HP,
+   bagian ini menyesuaikan HP kecil, tablet, desktop, layar besar,
+   dan HP posisi landscape.
+   ============================================================ */
+:root {
+  --wrap: 560px;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Isi tabel/teks panjang tidak boleh melebarkan halaman */
+.tb td,
+.tb th,
+.row span,
+.rc,
+.acc,
+.card {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+
+.wrap {
+  max-width: var(--wrap);
+}
+
+.modal .card {
+  max-height: 82vh;
+  max-height: 82dvh;
+}
+
+/* Area sentuh minimal nyaman di layar sentuh */
+@media (pointer: coarse) {
+  .btn,
+  .tab,
+  .acc summary,
+  .row {
+    min-height: 44px;
+  }
+}
+
+/* Efek hover hanya di perangkat yang punya mouse */
+@media (hover: hover) {
+  .tab:hover {
+    color: var(--tx);
+  }
+
+  .btn:not([disabled]):hover {
+    border-color: var(--pri);
+    filter: brightness(1.12);
+  }
+
+  .row:hover {
+    border-color: var(--pri);
+    cursor: pointer;
+  }
+}
+
+/* ---------- HP kecil (<= 360px) ---------- */
+@media (max-width: 360px) {
+  body {
+    font-size: 14px;
+  }
+
+  .wrap {
+    padding: 12px 12px 108px;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .hero p {
+    letter-spacing: .22em;
+    font-size: 12px;
+  }
+
+  .tiles {
+    gap: 6px;
+  }
+
+  .tiles b {
+    font-size: 18px;
+  }
+
+  .tiles div {
+    font-size: 11px;
+  }
+
+  .card h2 {
+    font-size: 17px;
+  }
+
+  .tb th,
+  .tb td {
+    padding: 8px 7px;
+    font-size: 13px;
+  }
+
+  .tabs {
+    width: calc(100% - 16px);
+    gap: 2px;
+    padding: 5px;
+  }
+
+  .tab {
+    font-size: 10.5px;
+    padding: 7px 2px 6px;
+  }
+
+  .tab i {
+    font-size: 18px;
+  }
+}
+
+/* ---------- Tablet (>= 768px) ---------- */
+@media (min-width: 768px) {
+  :root {
+    --wrap: 680px;
+  }
+
+  body {
+    font-size: 16px;
+  }
+
+  .wrap {
+    padding: 28px 24px 130px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .tiles {
+    gap: 14px;
+  }
+
+  .tiles b {
+    font-size: 26px;
+  }
+
+  .tiles div {
+    font-size: 13px;
+    padding: 14px 6px;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .card h2 {
+    font-size: 22px;
+  }
+
+  .tb th,
+  .tb td {
+    padding: 11px 14px;
+    font-size: 15px;
+  }
+
+  .tabs {
+    width: min(460px, 70%);
+  }
+
+  .tab {
+    font-size: 12px;
+  }
+}
+
+/* ---------- Desktop (>= 1100px) ---------- */
+@media (min-width: 1100px) {
+  :root {
+    --wrap: 760px;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+  }
+
+  .tabs {
+    width: 480px;
+    bottom: 24px;
+  }
+}
+
+/* ---------- Layar besar (>= 1600px) ---------- */
+@media (min-width: 1600px) {
+  :root {
+    --wrap: 860px;
+  }
+
+  body {
+    font-size: 17px;
+  }
+}
+
+/* ---------- HP posisi landscape / layar pendek ---------- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .wrap {
+    padding-bottom: 84px;
+  }
+
+  .hero h1 {
+    font-size: 26px;
+  }
+
+  .tabs {
+    bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+    width: min(380px, calc(100% - 24px));
+    padding: 4px;
+  }
+
+  .tab {
+    flex-direction: row;
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .tab i {
+    font-size: 16px;
+  }
+
+  .modal {
+    padding: 8px;
+  }
+
+  .modal .card {
+    max-height: 94vh;
+    max-height: 94dvh;
+  }
+}
+
+
+/* ============================================================
+   19. PERBAIKAN: LAYAR MELEBAR SAAT PINDAH TAB
+   ------------------------------------------------------------
+   Animasi slide-in menggeser halaman 36px ke samping sehingga
+   lebar dokumen sempat bertambah. Di HP, browser lalu memperbesar
+   viewport dan dock (position: fixed) terdorong keluar layar.
+   overflow-x: clip memotong luapan itu tanpa membuat scroll baru.
+   ============================================================ */
+html,
+body,
+.wrap {
+  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+.wrap {
+  max-width: var(--wrap);
+}
+
+
+/* ============================================================
+   20. DOCK: TAHAN & GESER (DRAG)
+   ------------------------------------------------------------
+   Pil mengikuti jari/mouse, lalu menempel ke tab terdekat saat
+   dilepas. translate dipisah dari scale supaya gerakan mengikuti
+   jari langsung (tanpa delay) sementara efek "membesar" tetap halus.
+   ============================================================ */
+.tabs {
+  touch-action: none;          /* geser horizontal tidak men-scroll halaman */
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.tabs.drag {
+  cursor: grabbing;
+}
+
+.tabs.drag::before {
+  transition:
+    translate 0s,
+    width .38s cubic-bezier(.22, 1, .36, 1),
+    scale .22s cubic-bezier(.22, 1, .36, 1),
+    background .22s, box-shadow .22s;
+  scale: 1.1 1.14;
+  background: rgba(255, 71, 87, .34);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .25),
+    0 6px 22px rgba(255, 71, 87, .45);
+}
+
+.tabs.drag .tab {
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tabs.drag::before {
+    scale: 1;
+    transition: none;
+  }
+}
+
+
+/* ============================================================
+   21. ANIMASI HALUS
+   ------------------------------------------------------------
+   Animasi masuk bertahap tiap elemen halaman, pop lembut
+   untuk modal, konten accordion meluncur, serta transisi
+   tekan & hover supaya seluruh situs terasa mulus.
+   ============================================================ */
+
+/* Elemen halaman muncul bertahap saat tab dipilih */
+.page.on > * {
+  animation: rise .5s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+.page.on > *:nth-child(2) {
+  animation-delay: .06s;
+}
+
+.page.on > *:nth-child(3) {
+  animation-delay: .12s;
+}
+
+.page.on > *:nth-child(4) {
+  animation-delay: .18s;
+}
+
+.page.on > *:nth-child(5) {
+  animation-delay: .24s;
+}
+
+.page.on > *:nth-child(6) {
+  animation-delay: .3s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal muncul dengan pop lembut */
+.modal.on .card {
+  animation: pop .4s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(.92) translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Isi accordion meluncur halus saat dibuka */
+.acc[open] p {
+  animation: rise .35s cubic-bezier(.22, 1, .36, 1) backwards;
+}
+
+/* Tekanan tombol & baris terasa lebih halus */
+.btn {
+  transition: transform .15s, filter .2s, box-shadow .2s;
+}
+
+.row {
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+/* Angkat kecil saat kursor di atas kartu (perangkat ber-mouse) */
+@media (hover: hover) {
+  .page .card,
+  .tiles div,
+  .perk div {
+    transition: transform .25s, box-shadow .25s;
+  }
+
+  .page .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, .55);
+  }
+
+  .tiles div:hover,
+  .perk div:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Hormati pengaturan kurangi gerak */
+@media (prefers-reduced-motion: reduce) {
+  .page.on > *,
+  .modal.on .card,
+  .acc[open] p {
+    animation: none;
+  }
+}
